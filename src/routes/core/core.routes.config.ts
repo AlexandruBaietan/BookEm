@@ -1,15 +1,17 @@
-import express from "express";
+import express from 'express'
 
-export class CoreRoutesConfig {
-  app: express.Application;
-  name: string;
+export abstract class CoreRoutesConfig {
+    app: express.Application
+    name: string
 
-  constructor(app: express.Application, name: string) {
-    this.app = app;
-    this.name = name;
-  }
+    constructor(app: express.Application, name: string) {
+        this.app = app
+        this.name = name
+        this.configureRoutes()
+    }
 
-  getName = () => {
-    return this.name;
-  };
+    getName = () => {
+        return this.name
+    }
+    abstract configureRoutes(): express.Application
 }
