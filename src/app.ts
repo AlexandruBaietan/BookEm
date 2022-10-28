@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import { CoreRoutesConfig } from './core/core.routes.config'
-import { UserRoutes } from './users/users.config'
+import { UsersRoutes } from './users/users.config'
 
 const main = () => {
     const app = express()
@@ -11,7 +11,7 @@ const main = () => {
 
     const routes: Array<CoreRoutesConfig> = []
 
-    const userRoutes = new UserRoutes(app)
+    const userRoutes = new UsersRoutes(app)
     routes.push(userRoutes)
 
     app.get('/', (req, res) => {
