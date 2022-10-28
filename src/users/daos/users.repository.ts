@@ -1,7 +1,7 @@
 import DbConnectionService from '../../core/services/connection.service'
 import { Users } from './users.entity'
 
-const userRepository =
+const UserRepository =
     DbConnectionService.getDbConnection().getRepository(Users)
 
-export { Users, userRepository }
+export { Users, UserRepository }
