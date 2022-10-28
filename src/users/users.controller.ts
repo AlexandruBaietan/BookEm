@@ -23,16 +23,18 @@ class UsersController {
         if (req.body.password) {
             req.body.password = await argon2.hash(req.body.password)
         }
-
+        await usersService.patchById(req.body.id, req.body)
         res.status(204).send()
     }
 
     async put(req: express.Request, res: express.Response) {
         req.body.password = await argon2.hash(req.body.password)
+        await usersService.putById(req.body.id, req.body)
         res.status(204).send()
     }
 
     async removeUser(req: express.Request, res: express.Response) {
+        await usersService.deleteById(req.body.id)
         res.status(204).send()
     }
 }
