@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import { CoreRoutesConfig } from './routes/core/core.routes.config'
-import { UserRoutes } from './routes/userRoutes/user.config'
+import { UserRoutes } from './routes/users/users.config'
 
 const main = () => {
     const app = express()
