@@ -1,6 +1,7 @@
 import UsersDao from './daos/users.dao'
 import { CRUD } from 'core/interfaces/crud.interface'
 import { PutUserDto, PatchUserDto, CreateUserDto } from './dto'
+import { userRepository, Users } from './daos/users.repository'
 
 class UsersService implements CRUD {
     async create(resource: CreateUserDto) {
@@ -12,6 +13,15 @@ class UsersService implements CRUD {
     }
 
     async list(limit: number, page: number) {
+        const testUser = new Users()
+
+        testUser.id = 1
+        testUser.email = 'test'
+        testUser.firstName = 'test'
+        testUser.lastName = 'test'
+        testUser.permissionLevel = '3'
+
+        await userRepository.save(testUser)
         return UsersDao.getUsers()
     }
 

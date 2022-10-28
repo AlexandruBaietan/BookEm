@@ -16,8 +16,13 @@
     "strictNullChecks": true,                         
     "strictFunctionTypes": true,                      
     "alwaysStrict": true,                             
-    "skipLibCheck": true,     
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,    
+    "strictPropertyInitialization": false,  
     // "sourceMap": true,
-  }
-  
+  },
+  "include": [
+    "src"
+  ]
 }
