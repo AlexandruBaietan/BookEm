@@ -1,4 +1,4 @@
-import { CoreRoutesConfig } from '../core/core.routes.config'
+import { CoreRoutesConfig } from 'core/core.routes.config'
 import express from 'express'
 
 export class UserRoutes extends CoreRoutesConfig {
