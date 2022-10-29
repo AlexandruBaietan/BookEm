@@ -1,5 +1,5 @@
-import { CreateUserDto, PutUserDto, PatchUserDto } from '../dto/index'
-import { UserRepository } from './users.repository'
+import { CreateUserDto, PutUserDto, PatchUserDto } from './dto/index'
+import { UserRepository } from './module/users.repository'
 
 class UsersDao {
     users: Array<CreateUserDto> = []
@@ -8,12 +8,12 @@ class UsersDao {
         return UserRepository.save({ ...user, permissionLevel: '1' })
     }
 
-    async getUsers() {
-        return UserRepository.find()
+    async getUsers(limit: number, page: number) {
+        return UserRepository.find({ take: limit, skip: limit * page })
     }
 
     async getUserById(userId: string) {
-        return this.users.find((user: { id: string }) => user.id === userId)
+        return UserRepository.findOne({ where: { id: `${userId}` } })
     }
 
     async putUserById(userId: string, user: PutUserDto) {

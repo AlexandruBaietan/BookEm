@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { Users } from '../../users/daos/users.entity'
+import { Users } from '../../users/module/users.entity'
 
 class DbConnectionService {
     private myDataSource = new DataSource({

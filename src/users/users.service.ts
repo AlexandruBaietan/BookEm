@@ -1,7 +1,6 @@
-import UsersDao from './daos/users.dao'
+import UsersDao from './users.module'
 import { CRUD } from 'core/interfaces/crud.interface'
 import { PutUserDto, PatchUserDto, CreateUserDto } from './dto'
-import { UserRepository, Users } from './daos/users.repository'
 
 class UsersService implements CRUD {
     async create(resource: CreateUserDto) {
@@ -13,7 +12,7 @@ class UsersService implements CRUD {
     }
 
     async list(limit: number, page: number) {
-        return UsersDao.getUsers()
+        return UsersDao.getUsers(limit, page)
     }
 
     async patchById(id: string, resource: PatchUserDto) {
