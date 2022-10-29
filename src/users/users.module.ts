@@ -1,7 +1,7 @@
 import { CreateUserDto, PutUserDto, PatchUserDto } from './dto/index'
 import { UserRepository } from './module/users.repository'
 
-class UsersDao {
+class UsersModule {
     users: Array<CreateUserDto> = []
 
     async addUser(user: CreateUserDto) {
@@ -63,4 +63,4 @@ class UsersDao {
     }
 }
 
-export default new UsersDao()
+export default new UsersModule()
