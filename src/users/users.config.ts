@@ -2,6 +2,8 @@ import { CoreRoutesConfig } from '../core/core.routes.config'
 import UsersController from './users.controller'
 import UsersMiddleware from './middleware/users.middleware'
 import express from 'express'
+import { makeValidateBody } from 'express-class-validator'
+import { CreateUserDto } from './dto'
 
 export class UsersRoutes extends CoreRoutesConfig {
     constructor(app: express.Application) {
@@ -13,6 +15,7 @@ export class UsersRoutes extends CoreRoutesConfig {
             .route(`/users`)
             .get(UsersController.listUsers)
             .post(
+                makeValidateBody(CreateUserDto),
                 UsersMiddleware.validateRequiredUserBodyFields,
                 UsersMiddleware.validateSameEmailDoesntExist,
                 UsersController.createUser

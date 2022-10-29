@@ -4,15 +4,18 @@ import 'reflect-metadata'
 @Entity()
 export class Users extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number
+    id: string
 
     @Column()
     email: string
 
     @Column()
+    password: string
+
+    @Column({ nullable: true })
     firstName: string
 
-    @Column()
+    @Column({ nullable: true })
     lastName: string
 
     @Column()

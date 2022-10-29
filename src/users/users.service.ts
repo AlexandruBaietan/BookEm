@@ -13,16 +13,7 @@ class UsersService implements CRUD {
     }
 
     async list(limit: number, page: number) {
-        const testUser = new Users()
-
-        // testUser.id = 1
-        testUser.email = 'test'
-        testUser.firstName = 'test'
-        testUser.lastName = 'test'
-        testUser.permissionLevel = '3'
-
-        await UserRepository.save(testUser)
-        return UserRepository.find()
+        return UsersDao.getUsers()
     }
 
     async patchById(id: string, resource: PatchUserDto) {

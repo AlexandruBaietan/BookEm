@@ -1,6 +1,14 @@
-import { IUserCredentials, IUserDetails } from 'core/interfaces/user'
-import { ExtendType } from 'core/interfaces/type.extention.interface'
+import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IUserCredentials, IUserDetails } from '../../core/interfaces/user'
 
-export type CreateUserDto = IUserCredentials &
-    Partial<IUserDetails> &
-    ExtendType
+interface ICreateUserData extends IUserCredentials, Partial<IUserDetails> {}
+export class CreateUserDto implements ICreateUserData {
+    id: string
+
+    @IsEmail()
+    @IsNotEmpty()
+    email: string
+
+    @IsNotEmpty()
+    password: string
+}

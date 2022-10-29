@@ -1,21 +1,15 @@
-import shortid from 'shortid'
 import { CreateUserDto, PutUserDto, PatchUserDto } from '../dto/index'
+import { UserRepository } from './users.repository'
 
 class UsersDao {
     users: Array<CreateUserDto> = []
 
-    constructor() {
-        console.log('Created new instance of UsersDao')
-    }
-
     async addUser(user: CreateUserDto) {
-        user.id = shortid.generate()
-        this.users.push(user)
-        return user.id
+        return UserRepository.save({ ...user, permissionLevel: '1' })
     }
 
     async getUsers() {
-        return this.users
+        return UserRepository.find()
     }
 
     async getUserById(userId: string) {
@@ -43,7 +37,6 @@ class UsersDao {
         ]
         for (const field of allowedPatchFields) {
             if (field in user) {
-                currentUser[field] = user[field]
             }
         }
         this.users.splice(objIndex, 1, currentUser)
