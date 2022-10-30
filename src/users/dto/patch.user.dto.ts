@@ -1,4 +1,11 @@
-import { ExtendType } from 'core/interfaces/type.extention.interface'
 import { IUserCredentials, IUserDetails } from 'core/interfaces/user'
+import { IsEmail, IsNotEmpty } from 'class-validator'
+export interface IPatchUserData
+    extends Partial<IUserCredentials>,
+        Partial<IUserDetails> {}
 
-export type PatchUserDto = Partial<IUserCredentials & IUserDetails> & ExtendType
+export class PatchUserDto implements IPatchUserData {
+    @IsEmail()
+    @IsNotEmpty()
+    email: string
+}

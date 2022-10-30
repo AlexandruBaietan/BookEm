@@ -1,34 +1,37 @@
-import UsersModule from './users.module'
+import UsersRepository from './users.repository'
 import { CRUD } from 'core/interfaces/crud.interface'
 import { PutUserDto, PatchUserDto, CreateUserDto } from './dto'
 
 class UsersService implements CRUD {
     async create(resource: CreateUserDto) {
-        return UsersModule.addUser(resource)
+        return UsersRepository.addUser(resource)
     }
 
     async deleteById(id: string) {
-        return UsersModule.removeUserById(id)
+        return UsersRepository.removeUserById(id)
     }
 
     async list(limit: number, page: number) {
-        return UsersModule.getUsers(limit, page)
+        return UsersRepository.getUsers(limit, page)
     }
 
     async patchById(id: string, resource: PatchUserDto) {
-        return UsersModule.patchUserById(id, resource)
+        return UsersRepository.patchUserById(id, resource)
     }
 
     async readById(id: string) {
-        return UsersModule.getUserById(id)
+        return UsersRepository.getUserById(id)
     }
 
     async putById(id: string, resource: PutUserDto) {
-        return UsersModule.putUserById(id, resource)
+        return UsersRepository.UpdateUserById(id, resource)
     }
 
     async getUserByEmail(email: string) {
-        return UsersModule.getUserByEmail(email)
+        return UsersRepository.getUserByEmail(email)
+    }
+    async getUserByEmailWithPassword(email: string) {
+        return UsersRepository.getUserByEmailWithPassword(email)
     }
 }
 

@@ -1,66 +1,46 @@
-import { CreateUserDto, PutUserDto, PatchUserDto } from './dto/index'
-import { UserRepository } from './module/users.repository'
+import { CoreRoutesConfig } from '../core/core.routes.config'
+import UsersController from './users.controller'
+import UsersMiddleware from './middleware/users.middleware'
+import express from 'express'
+import { makeValidateBody } from 'express-class-validator'
+import { CreateUserDto, PutUserDto, PatchUserDto } from './dto'
 
-class UsersModule {
-    users: Array<CreateUserDto> = []
-
-    async addUser(user: CreateUserDto) {
-        return UserRepository.save({ ...user, permissionLevel: '1' })
+export class UsersRoutes extends CoreRoutesConfig {
+    constructor(app: express.Application) {
+        super(app, 'UsersRoutes')
     }
 
-    async getUsers(limit: number, page: number) {
-        return UserRepository.find({ take: limit, skip: limit * page })
-    }
+    configureRoutes(): express.Application {
+        this.app
+            .route(`/users`)
+            .get(UsersController.listUsers)
+            .post(
+                makeValidateBody(CreateUserDto),
+                UsersMiddleware.validateRequiredUserBodyFields,
+                UsersMiddleware.validateSameEmailDoesntExist,
+                UsersController.createUser
+            )
 
-    async getUserById(userId: string) {
-        return UserRepository.findOne({ where: { id: `${userId}` } })
-    }
+        this.app.param(`userId`, UsersMiddleware.extractUserId)
+        this.app
+            .route(`/users/:userId`)
+            .all(UsersMiddleware.validateUserExists)
+            .get(UsersController.getUserById)
+            .delete(UsersController.removeUser)
 
-    async putUserById(userId: string, user: PutUserDto) {
-        const objIndex = this.users.findIndex(
-            (obj: { id: string }) => obj.id === userId
-        )
-        this.users.splice(objIndex, 1, user)
-        return `${user.id} updated via put`
-    }
+        this.app.put(`/users/:userId`, [
+            makeValidateBody(PutUserDto),
+            UsersMiddleware.validateRequiredUserBodyFields,
+            UsersMiddleware.validateSameEmailBelongToSameUser,
+            UsersController.put
+        ])
 
-    async patchUserById(userId: string, user: PatchUserDto) {
-        const objIndex = this.users.findIndex(
-            (obj: { id: string }) => obj.id === userId
-        )
-        const currentUser = this.users[objIndex]
-        const allowedPatchFields = [
-            'password',
-            'firstName',
-            'lastName',
-            'permissionLevel'
-        ]
-        for (const field of allowedPatchFields) {
-            if (field in user) {
-            }
-        }
-        this.users.splice(objIndex, 1, currentUser)
-        return `${user.id} patched`
-    }
-    async removeUserById(userId: string) {
-        const objIndex = this.users.findIndex(
-            (obj: { id: string }) => obj.id === userId
-        )
-        this.users.splice(objIndex, 1)
-        return `${userId} removed`
-    }
+        this.app.patch(`/users/:userId`, [
+            makeValidateBody(PatchUserDto),
+            UsersMiddleware.validatePatchEmail,
+            UsersController.patch
+        ])
 
-    async getUserByEmail(email: string) {
-        const objIndex = this.users.findIndex(
-            (obj: { email: string }) => obj.email === email
-        )
-        let currentUser = this.users[objIndex]
-        if (currentUser) {
-            return currentUser
-        } else {
-            return null
-        }
+        return this.app
     }
 }
-
-export default new UsersModule()
