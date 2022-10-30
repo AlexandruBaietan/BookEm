@@ -44,11 +44,8 @@ class UsersRepository {
         return `${userId} patched`
     }
     async removeUserById(userId: string) {
-        const objIndex = this.users.findIndex(
-            (obj: { id: string }) => obj.id === userId
-        )
-        this.users.splice(objIndex, 1)
-        return `${userId} removed`
+        await UserRepository.delete(userId)
+        return 'deleted' + userId
     }
 
     async getUserByEmail(email: string) {
