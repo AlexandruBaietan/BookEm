@@ -5,7 +5,7 @@ class UsersRepository {
     users: Array<CreateUserDto> = []
 
     async addUser(user: CreateUserDto) {
-        return UserRepository.save({ ...user, permissionLevel: '1' })
+        return (await UserRepository.save({ ...user, permissionLevel: '1' })).id
     }
 
     async getUsers(limit: number, page: number) {
@@ -13,16 +13,22 @@ class UsersRepository {
     }
 
     async getUserById(userId: string) {
-        return UserRepository.createQueryBuilder('user')
-            .select(['user.password', 'user.permissionLevel'])
-            .where('user.id=:id', { id: userId })
-            .getOne()
-    }
-    async getUserByEmailWithPassword(email: string) {
-        return UserRepository.findOne({ where: { email: email } })
+        return UserRepository.findOne({ where: { id: userId } })
     }
 
-    async UpdateUserById(userId: string, user: PutUserDto) {
+    async getUserByEmailWithPassword(email: string) {
+        return UserRepository.createQueryBuilder('user')
+            .select([
+                'user.id AS id',
+                'user.email AS email',
+                'user.password AS password',
+                'user.permissionLevel AS permissionLevel'
+            ])
+            .where({ email: email })
+            .execute()
+    }
+
+    async putById(userId: string, user: PutUserDto) {
         await UserRepository.createQueryBuilder('user')
             .update(user)
             .where('user.id=:id', {

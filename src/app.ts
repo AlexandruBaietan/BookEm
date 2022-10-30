@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import { AuthRoutes } from './auth/auth.routes.module'
 
 import { CoreRoutesConfig } from './core/core.routes.config'
 import { UsersRoutes } from './users/users.module'
@@ -12,11 +13,10 @@ const main = () => {
     const routes: Array<CoreRoutesConfig> = []
 
     const userRoutes = new UsersRoutes(app)
-    routes.push(userRoutes)
+    const authRoutes = new AuthRoutes(app)
 
-    app.get('/', (req, res) => {
-        res.send('Hello world')
-    })
+    routes.push(userRoutes)
+    routes.push(authRoutes)
 
     app.listen(3000, () => {
         routes.forEach((route) => console.log(route.getName()))

@@ -24,7 +24,7 @@ class UsersService implements CRUD {
     }
 
     async putById(id: string, resource: PutUserDto) {
-        return UsersRepository.UpdateUserById(id, resource)
+        return UsersRepository.putById(id, resource)
     }
 
     async getUserByEmail(email: string) {
