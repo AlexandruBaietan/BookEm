@@ -28,7 +28,6 @@ class CommonPermissionMiddleware {
         res: express.Response,
         next: express.NextFunction
     ) {
-        // return res.json(res.locals)
         const userPermissionFlags = parseInt(res.locals.jwt.permissionFlags)
         if (
             req.params &&
@@ -42,23 +41,6 @@ class CommonPermissionMiddleware {
             } else {
                 return res.status(403).send()
             }
-        }
-    }
-
-    async userCantChangePermission(
-        req: express.Request,
-        res: express.Response,
-        next: express.NextFunction
-    ) {
-        if (
-            'permissionFlags' in req.body &&
-            req.body.permissionFlags !== res.locals.user.permissionFlags
-        ) {
-            res.status(400).send({
-                errors: ['User cannot change permission flags']
-            })
-        } else {
-            next()
         }
     }
 }

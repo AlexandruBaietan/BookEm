@@ -4,7 +4,7 @@ import 'dotenv/config'
 import crypto from 'crypto'
 
 const jwtSecret: string = process.env.JWT_SECRET || ''
-const tokenExpirationInSeconds = 36000
+const tokenExpirationInSeconds = 360000000
 
 class AuthController {
     async createJWT(req: express.Request, res: express.Response) {

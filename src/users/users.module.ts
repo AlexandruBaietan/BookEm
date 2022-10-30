@@ -33,6 +33,7 @@ export class UsersRoutes extends CoreRoutesConfig {
             .route(`/users/:userId`)
             .all(
                 UsersMiddleware.validateUserExists,
+                jwtMiddleware.validJWTNeeded,
                 permissionMiddleware.onlySameUserOrAdminCanDoThisAction
             )
             .get(UsersController.getUserById)
@@ -42,12 +43,14 @@ export class UsersRoutes extends CoreRoutesConfig {
             makeValidateBody(PutUserDto),
             UsersMiddleware.validateRequiredUserBodyFields,
             UsersMiddleware.validateSameEmailBelongToSameUser,
+            UsersMiddleware.userCantChangePermission,
             UsersController.put
         ])
 
         this.app.patch(`/users/:userId`, [
             makeValidateBody(PatchUserDto),
             UsersMiddleware.validatePatchEmail,
+            UsersMiddleware.userCantChangePermission,
             UsersController.patch
         ])
 
