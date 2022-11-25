@@ -18,7 +18,7 @@ export class UsersRoutes extends CoreRoutesConfig {
             .get(
                 jwtMiddleware.validJWTNeeded,
                 permissionMiddleware.permissionFlagRequired(
-                    PermissionFlag.FREE_PERMISSION
+                    PermissionFlag.ADMIN_PERMISSION
                 ),
                 UsersController.listUsers
             )

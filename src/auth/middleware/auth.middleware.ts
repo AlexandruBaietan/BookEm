@@ -12,7 +12,6 @@ export class AuthMiddleware {
             req.body.email
         )
         if (user) {
-            console.log(user)
             const passwordHash = user.password
             if (await argon2.verify(passwordHash, req.body.password)) {
                 req.body = {
@@ -20,7 +19,6 @@ export class AuthMiddleware {
                     email: user.email,
                     permissionFlags: user.permissionLevel
                 }
-
                 return next()
             }
         }
