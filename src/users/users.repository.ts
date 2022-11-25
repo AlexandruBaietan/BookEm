@@ -13,7 +13,9 @@ class UsersRepository {
     }
 
     async getUserById(userId: string) {
-        return UserRepository.findOne({ where: { id: userId } })
+        return await UserRepository.findOne({
+            where: { id: userId }
+        })
     }
 
     async getUserByEmailWithPassword(email: string) {
@@ -22,7 +24,7 @@ class UsersRepository {
                 'user.id AS id',
                 'user.email AS email',
                 'user.password AS password',
-                'user.permissionLevel AS permissionLevel'
+                'user.permissionLevel '
             ])
             .where({ email: email })
             .execute()

@@ -39,9 +39,9 @@ class JwtMiddleware {
             .digest('base64')
         if (hash === req.body.refreshToken) {
             req.body = {
-                userId: user._id,
+                userId: user.id,
                 email: user.email,
-                permissionFlags: user.permissionFlags
+                permissionFlags: user.permissionLevel
             }
             return next()
         } else {
@@ -58,6 +58,7 @@ class JwtMiddleware {
             try {
                 const authorization = req.headers['authorization'].split(' ')
                 if (authorization[0] !== 'Bearer') {
+                    return res.status(401).send()
                 } else {
                     res.locals.jwt = jwt.verify(
                         authorization[1],
